@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <ncurses.h>
+
+/* TODO
+ * Implement char input
+ * X/Y char placement
+ * Two boars for player and enemy
+ */
+
+enum icon
+{
+    EMPTY = ' ',
+    WATER = '~',
+    MISS = '.',
+    HIT = '&',
+
+    SHIP = '#'
+};
+
+/* The board X/Y size */
+#define BOARD_X 10
+#define BOARD_Y 15
+
+enum icon boardP[BOARD_X][BOARD_Y];
+enum icon boardE[BOARD_X][BOARD_Y];
+enum icon player[BOARD_X][BOARD_Y];
+enum icon enemy[BOARD_X][BOARD_Y];
+
+void initBoard()
+{
+    /* Print Header */
+    clear();
+    for(int x = 0; x < BOARD_X; x++)
+        mvprintw(0, x*2+3, "%c ", 'A' + x);
+
+    /* Print board */
+    for(int y = 0; y < BOARD_Y; y++)
+    {
+        //mvprintw(y+1, 0, "%d", y); 
+        if(y >= 10) { mvprintw(y+1, 0, "%2d", y); }
+        else mvprintw(y+1, 0, "%2d ", y);
+
+        for(int x = 0; x < BOARD_X; x++)
+        {
+            /* Draw the player board */
+            mvprintw(y+1, x*2+3, "%c ", boardP[x][y] = WATER);
+        }
+    }
+    
+    refresh();
+}
+
+void updateBoard()
+{
+    for(int y = 0; y < BOARD_Y; y++)
+    {
+        for(int x = 0; x < BOARD_X; x++)
+        {
+            /* Draw the icons */
+            boardP[x][y];
+        }
+    }
+}
+
+void drawIcon(enum icon board[BOARD_X][BOARD_Y], enum icon ico, int x, int y)
+{
+   if(x < 0 || x >= BOARD_X) return;
+   if(y < 0 || x >= BOARD_Y) return;
+
+   board[x][y] = ico;
+   updateBoard();
+}
