@@ -15,6 +15,7 @@ int main()
 {
     running = true;
     initBoard();
+    drawIcon(boardE, MISS, 3, 1);
 
     /* User input */
     char guess[10];
@@ -29,7 +30,7 @@ int main()
 
     /* Remove buffer to prevent overflow to other
      * scanf functions */
-    int c;
+//    int c;
 //    while ((c = getchar()) != '\n' && c != EOF);
 
     if (!strcmp(guess, "quit") ||

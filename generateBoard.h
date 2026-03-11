@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ncurses.h>
 
 /* TODO
  * Implement char input
@@ -9,6 +10,7 @@
 enum icon
 {
     EMPTY = ' ',
+    WATER = '~',
     MISS = '.',
     HIT = '&',
 
@@ -26,6 +28,7 @@ enum icon enemy[BOARD_X][BOARD_Y];
 
 void initBoard()
 {
+    printf("Draw Board\n");
     /* Print Header */
     printf("\n   ");
     for(int x = 0; x < BOARD_X; x++)
@@ -46,12 +49,17 @@ void initBoard()
         for(int x = 0; x < BOARD_X; x++)
         {
             /* Draw the player board */
-            printf("%c ", boardP[x][y]);
+            printf("%c ", boardP[x][y] = EMPTY);
         }
 
+        /* Seperator only works if
+         * the board is empty, and since
+         * it's initalised with water we don't
+         * need it */
+
         /* Seperator */
-        for(int x = 0; x < BOARD_X; x++)
-            printf(" ");
+//      for(int x = 0; x < BOARD_X; x++)
+//          printf(" ");
 
         printf("|");
 
@@ -66,4 +74,26 @@ void initBoard()
 
         printf("\n");
     }
+}
+
+void updateBoard()
+{
+    for(int y = 0; y < BOARD_Y; y++)
+    {
+        for(int x = 0; x < BOARD_X; x++)
+        {
+            /* Draw the icons */
+            boardP[x][y];
+            boardE[x][y];
+        }
+    }
+}
+
+void drawIcon(enum icon board[BOARD_X][BOARD_Y], enum icon ico, int x, int y)
+{
+   if(x < 0 || x >= BOARD_X) return;
+   if(y < 0 || x >= BOARD_Y) return;
+
+   board[x][y] = ico;
+   updateBoard();
 }
