@@ -28,13 +28,11 @@ enum icon enemy[BOARD_X][BOARD_Y];
 
 void initBoard()
 {
+    initscr();
+
     printf("Draw Board\n");
     /* Print Header */
     printf("\n   ");
-    for(int x = 0; x < BOARD_X; x++)
-        printf("%c ", 'A' + x);
-
-    printf("|   ");
     for(int x = 0; x < BOARD_X; x++)
         printf("%c ", 'A' + x);
 
@@ -51,27 +49,6 @@ void initBoard()
             /* Draw the player board */
             printf("%c ", boardP[x][y] = EMPTY);
         }
-
-        /* Seperator only works if
-         * the board is empty, and since
-         * it's initalised with water we don't
-         * need it */
-
-        /* Seperator */
-//      for(int x = 0; x < BOARD_X; x++)
-//          printf(" ");
-
-        printf("|");
-
-        if(y >= 10) { printf("%d ", y); }
-        else printf(" %d ", y);
-
-        for(int x = 0; x < BOARD_X; x++)
-        {
-            /* Draw the enemy board */
-            printf("%c ", boardE[x][y]);
-        }
-
         printf("\n");
     }
 }
@@ -84,7 +61,6 @@ void updateBoard()
         {
             /* Draw the icons */
             boardP[x][y];
-            boardE[x][y];
         }
     }
 }

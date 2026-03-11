@@ -17,11 +17,6 @@ int main()
     initBoard();
     drawIcon(boardE, MISS, 3, 1);
 
-    /* User input */
-    char guess[10];
-
-    printf("\n");
-    printf("> ");
     /* Leaving a space at the begining removes
      * any whitespace from returning, but string
      * input does not require it (maybe)
@@ -33,8 +28,8 @@ int main()
 //    int c;
 //    while ((c = getchar()) != '\n' && c != EOF);
 
-    if (!strcmp(guess, "quit") ||
-            !strcmp(guess, "q")) return 1;
+//  if (!strcmp(guess, "quit") ||
+//          !strcmp(guess, "q")) return 1;
 
     //      printf("guess: %s\n", guess);
 
@@ -49,10 +44,10 @@ int main()
 
     /* This code can be reused as a check if the
      * player has hit a terget or not */
-    if(!strcmp(guess, buffer))
-    {
-        printf("Correct!\n");
-    } else printf("Wrong!\n");
+//  if(!strcmp(guess, buffer))
+//  {
+//      printf("Correct!\n");
+//  } else printf("Wrong!\n");
 
     /* Reset the buffer to all 0's */
     memset(buffer, 0, sizeof(buffer));
