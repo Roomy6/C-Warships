@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "generateBoard.h"
+#include "boardUtil.h"
 
 /* Input command */
 char command;
@@ -13,6 +13,10 @@ bool gameOver = false;
 
 int main()
 {
+    initscr();
+    noecho();
+    curs_set(0);
+
     running = true;
     initBoard();
     drawIcon(boardE, MISS, 3, 1);
@@ -52,5 +56,7 @@ int main()
     /* Reset the buffer to all 0's */
     memset(buffer, 0, sizeof(buffer));
 
+    getch();
+    endwin();
     return 0;
 }
