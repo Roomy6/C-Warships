@@ -5,12 +5,6 @@
 
 #include "generateBoard.h"
 
-/*
- * TODO
- * Implement two "screens"
- * Random ship placement
- */
-
 /* Input command */
 char command;
 
