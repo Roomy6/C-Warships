@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ncurses.h>
+#include "shipUtil.h"
 
 /* TODO
  * Implement char input
@@ -36,7 +37,6 @@ void initBoard()
     /* Print board */
     for(int y = 0; y < BOARD_Y; y++)
     {
-        //mvprintw(y+1, 0, "%d", y); 
         if(y >= 10) { mvprintw(y+1, 0, "%2d", y); }
         else mvprintw(y+1, 0, "%2d ", y);
 
@@ -47,6 +47,9 @@ void initBoard()
         }
     }
     
+//  move(BOARD_Y + 2, 0);
+//  printw("%s", ships[CARRIER].name);
+
     refresh();
 }
 
