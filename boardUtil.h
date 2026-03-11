@@ -20,7 +20,7 @@ enum icon
 
 /* The board X/Y size */
 #define BOARD_X 10
-#define BOARD_Y 15
+#define BOARD_Y 10
 
 enum icon boardP[BOARD_X][BOARD_Y];
 enum icon boardE[BOARD_X][BOARD_Y];
@@ -46,9 +46,14 @@ void initBoard()
             mvprintw(y+1, x*2+3, "%c ", boardP[x][y] = WATER);
         }
     }
-    
-//  move(BOARD_Y + 2, 0);
-//  printw("%s", ships[CARRIER].name);
+   
+    /* Pos set test */
+    int maxS = ships[CARRIER].size;
+    for(int i = 0; i <= maxS; i++)
+        ships[CARRIER].x[i] = 1;
+
+    move(BOARD_Y + 2, 0);
+    printw("%s\nX:%d, Y:%d", ships[CARRIER].name, ships[CARRIER].x, ships[CARRIER].y);
 
     refresh();
 }
