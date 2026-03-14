@@ -21,72 +21,66 @@ enum icon
 /* The board X/Y size */
 #define BOARD_X 10
 #define BOARD_Y 10
+#define BOARD_ORIGIN_X 3
+#define BOARD_ORIGIN_Y 1
 
 enum icon boardP[BOARD_X][BOARD_Y];
 enum icon boardE[BOARD_X][BOARD_Y];
 enum icon player[BOARD_X][BOARD_Y];
 enum icon enemy[BOARD_X][BOARD_Y];
 
+/*
+ * https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html#WINDOWBASICS
+ */
+
+WINDOW *create_newwin(int height, int width, int startY, int startX);
+void destroy_win(WINDOW *board);
+
+/* Char placement helper */
+void board_addch(int x, int y, char c)
+{
+    int sx = BOARD_ORIGIN_X + x * 2;
+    int sy = BOARD_ORIGIN_Y + y;
+    
+    /* Should prob invert X/Y becuase ncurses xD */
+    mvaddch(sy, sx, c);
+}
+
+void initFleet()
+{
+}
+
+WINDOW *create_newwin(int height, int width, int startY, int startX)
+{
+    WINDOW *board;
+
+    board = newwin(height, width, 0, 0);
+    box(board, 0, 0);
+
+    wrefresh(board);
+
+    return board;
+}
+
+void destory_win(WINDOW *board)
+{
+    wborder(board, ' ', ' ', ' ',' ',' ',' ',' ',' ');
+    wrefresh(board);
+    delwin(board);
+}
+
 void initBoard()
 {
-    /* Print Header */
-    clear();
-    for(int x = 0; x < BOARD_X; x++)
-        mvprintw(0, x*2+3, "%c ", 'A' + x);
+    WINDOW *myBoard;
 
-    /* Print board */
-    for(int y = 0; y < BOARD_Y; y++)
-    {
-        if(y >= 10) { mvprintw(y+1, 0, "%2d", y); }
-        else mvprintw(y+1, 0, "%2d ", y);
-
-        for(int x = 0; x < BOARD_X; x++)
-        {
-            /* Draw the player board */
-            mvprintw(y+1, x*2+3, "%c ", boardP[x][y] = WATER);
-        }
-    }
-   
-    move(BOARD_Y + 2, 0);
-   
-    /* Init the fleet with its id's
-     * and ship information */
-    int id = 0;
-    int index = 0;
-
-    for(int t = 0; t < SHIP_TYPE; t++)
-    {
-        for(int i = 0; i < ships[t].count; i++)
-        {
-            fleet[index] = ships[t];
-            fleet[index].id = id++;
-            fleet[index].hits = 0;
-
-            index++;
-        }
-    }
-
-    fleet[3].x = 5;
-
-    /* Pos set test */
-    for(int i = 0; i < MAX_SHIPS; i++)
-    {
-        printw("%s | ID:%d\nX:%d, Y:%d\n", fleet[i].name, fleet[i].id, fleet[i].x, fleet[i].y);
-    }
-    
-    refresh();
+    /* Not sure why i need to *2 the X, maybe
+     * because character is taller than it is wide*/
+    myBoard = create_newwin(BOARD_Y, BOARD_X * 2, 0, 0);
+//    destory_win(myBoard);
 }
 
 void updateBoard()
 {
-    for(int y = 0; y < BOARD_Y; y++)
-    {
-        for(int x = 0; x < BOARD_X; x++)
-        {
-            /* Draw the icons */
-            boardP[x][y];
-        }
-    }
 }
 
 void drawIcon(enum icon board[BOARD_X][BOARD_Y], enum icon ico, int x, int y)

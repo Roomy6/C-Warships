@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_SHIP_SIZE 5
 #define MAX_SHIPS 10
@@ -53,19 +54,59 @@ struct ship* get_ship_by_id(int id)
     return NULL;
 }
 
-/* Implementation example
- int id = 0;
- int index = 0;
+void place_ship(struct ship *s)
+{
+    int placed = 0;
 
- for(int t = 0; t < SHIP_TYPE; t++)
- {
- for(int i = 0; i < ship_types[t].count; i++)
- {
- fleet[index].id = id++;
- fleet[index].type = &ship_types[t];
- fleet[index].hits = 0;
+    while(!placed)
+    {
+        /* TODO
+         * Replace the board size to the defined variable
+         * this causes a loop feedback thing causing many
+         * errors so idk how to fix that.
+         * 
+         * AND
+         *
+         * Implement random seed. */
 
- index++;
- }
- }
-*/
+        int dir = rand() % 2;   /* 0 = horizontal, 1 = vertical */
+        int startX = rand() % 10;
+        int startY = rand() % 10;
+
+        int valid = 1;
+
+        for(int i = 0; i < s->size; i++)
+        {
+            int x = startX + (dir == 0 ? i : 0);
+            int y = startY + (dir == 1 ? i : 0);
+
+            /* Check board limits */
+            if(x >= 10 || y >= 10)
+            {
+                valid = 0;
+                break;
+            }
+
+            /* Check collision */
+            /*
+            if(is_occupied(x, y))
+            {
+                valid = 0;
+                break;
+            }
+            */
+        }
+
+        if(!valid)
+            continue;
+
+        /* Write coordinates */
+        for(int i = 0; i < s->size; i++)
+        {
+            s->x = startX + (dir == 0 ? i : 0);
+            s->y = startY + (dir == 1 ? i : 0);
+        }
+
+        placed = 1;
+    }
+}
