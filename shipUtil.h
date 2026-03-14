@@ -1,16 +1,17 @@
+#include <stdio.h>
 
 #define MAX_SHIP_SIZE 5
-#define MAX_SHIPS 8
+#define MAX_SHIPS 10
 
 struct ship
 {
     const char *name;       /* Ship name */
-    int count;              /* Total # of type ship */
     int size;               /* Type ship size */
+    int count;              /* Total # of type ship */
 
     int id;
-    int x[MAX_SHIP_SIZE];   /* X Pos */
-    int y[MAX_SHIP_SIZE];   /* Y Pos */
+    int x;                  /* X Pos */
+    int y;                  /* Y Pos */
 
     int hits;               /* # of hits on ship */
 };
@@ -49,7 +50,7 @@ struct ship* get_ship_by_id(int id)
         if(fleet[i].id == id)
             return &fleet[i];
     }
-    return fleet;
+    return NULL;
 }
 
 /* Implementation example
