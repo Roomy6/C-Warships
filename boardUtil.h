@@ -47,14 +47,33 @@ void initBoard()
         }
     }
    
-    /* Pos set test */
-    int maxS = ships[CARRIER].size;
-    for(int i = 0; i <= maxS; i++)
-        ships[CARRIER].x[i] = 1;
-
     move(BOARD_Y + 2, 0);
-    printw("%s\nX:%d, Y:%d", ships[CARRIER].name, ships[CARRIER].x, ships[CARRIER].y);
+   
+    /* Init the fleet with its id's
+     * and ship information */
+    int id = 0;
+    int index = 0;
 
+    for(int t = 0; t < SHIP_TYPE; t++)
+    {
+        for(int i = 0; i < ships[t].count; i++)
+        {
+            fleet[index] = ships[t];
+            fleet[index].id = id++;
+            fleet[index].hits = 0;
+
+            index++;
+        }
+    }
+
+    fleet[3].x = 5;
+
+    /* Pos set test */
+    for(int i = 0; i < MAX_SHIPS; i++)
+    {
+        printw("%s | ID:%d\nX:%d, Y:%d\n", fleet[i].name, fleet[i].id, fleet[i].x, fleet[i].y);
+    }
+    
     refresh();
 }
 
