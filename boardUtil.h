@@ -3,9 +3,10 @@
 #include "shipUtil.h"
 
 /* TODO
+ * Board X/Y selection
  * Implement char input
  * X/Y char placement
- * Two boars for player and enemy
+ * Title
  */
 
 enum icon
@@ -19,7 +20,7 @@ enum icon
 };
 
 /* The board X/Y size */
-#define BOARD_X 10
+#define BOARD_X 20
 #define BOARD_Y 10
 #define BOARD_ORIGIN_X 3
 #define BOARD_ORIGIN_Y 1
@@ -38,8 +39,8 @@ WINDOW *boardWin()
     int height, width;
     getmaxyx(stdscr, height, width);
 
-    WINDOW *board_win = newwin(height, width,
-            1, 1);
+    WINDOW *board_win = newwin(BOARD_Y, BOARD_X,
+            (height - BOARD_Y) / 2, (width - BOARD_X) / 2);
 
     return board_win;
 }
@@ -54,19 +55,8 @@ void initBoard(WINDOW *board_win)
     box(board_win, 0, 0);
 }
 
-/* Char placement helper */
-void board_addch(int x, int y, char c)
-{
-    int sx = BOARD_ORIGIN_X + x * 2;
-    int sy = BOARD_ORIGIN_Y + y;
-    
-    /* Should prob invert X/Y becuase ncurses xD */
-    mvaddch(sy, sx, c);
-}
-
 void updateBoard(WINDOW *board_win)
-{
-    
+{    
 }
 
 void drawIcon(enum icon board[BOARD_X][BOARD_Y], enum icon ico, int x, int y)
