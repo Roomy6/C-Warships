@@ -33,8 +33,26 @@ enum icon enemy[BOARD_X][BOARD_Y];
  * https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/windows.html#WINDOWBASICS
  */
 
-WINDOW *create_newwin(int height, int width, int startY, int startX);
-void destroy_win(WINDOW *board);
+WINDOW *boardWin()
+{
+    int height, width;
+    getmaxyx(stdscr, height, width);
+
+    WINDOW *board_win = newwin(height, width,
+            1, 1);
+
+    return board_win;
+}
+
+void initFleet()
+{
+}
+
+void initBoard(WINDOW *board_win)
+{
+    initFleet();
+    box(board_win, 0, 0);
+}
 
 /* Char placement helper */
 void board_addch(int x, int y, char c)
@@ -46,48 +64,15 @@ void board_addch(int x, int y, char c)
     mvaddch(sy, sx, c);
 }
 
-void initFleet()
+void updateBoard(WINDOW *board_win)
 {
-}
-
-WINDOW *create_newwin(int height, int width, int startY, int startX)
-{
-    WINDOW *board;
-
-    board = newwin(height, width, 0, 0);
-    box(board, 0, 0);
-
-    wrefresh(board);
-
-    return board;
-}
-
-void destory_win(WINDOW *board)
-{
-    wborder(board, ' ', ' ', ' ',' ',' ',' ',' ',' ');
-    wrefresh(board);
-    delwin(board);
-}
-
-void initBoard()
-{
-    WINDOW *myBoard;
-
-    /* Not sure why i need to *2 the X, maybe
-     * because character is taller than it is wide*/
-    myBoard = create_newwin(BOARD_Y, BOARD_X * 2, 0, 0);
-//    destory_win(myBoard);
-}
-
-void updateBoard()
-{
+    
 }
 
 void drawIcon(enum icon board[BOARD_X][BOARD_Y], enum icon ico, int x, int y)
 {
    if(x < 0 || x >= BOARD_X) return;
-   if(y < 0 || x >= BOARD_Y) return;
+   if(y < 0 || y >= BOARD_Y) return;
 
    board[x][y] = ico;
-   updateBoard();
 }

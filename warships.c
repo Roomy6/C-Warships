@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "boardUtil.h"
+#include "playerUtil.h"
 
 /* Input command */
 char command;
@@ -13,17 +14,34 @@ bool gameOver = false;
 
 int main()
 {
-    initscr();
-    cbreak();
-    noecho();
-    curs_set(0);
+    initscr();          /* Init ncurses */
+    noecho();           /* No terminal LOG */
+    cbreak();           /* Disable line buffering */
+//  curs_set(0);        /* Set cursor invisible */
+   
+    WINDOW *board_win;
+    board_win = boardWin();
 
-    initBoard();
-    
-    while(1)
-        initBoard();
+    keypad(board_win, TRUE);
 
-    getch();
+    refresh();
+
+    initBoard(board_win);
+   
+    running = true;
+    while(running)
+    {
+        /* REMINDER
+         * input -> update -> draw
+         */
+        moveSelection(board_win, running);
+        wrefresh(board_win);
+        updateBoard(board_win);
+
+        refresh();
+    }
+
+    delwin(board_win);
     endwin();
     return 0;
 }
