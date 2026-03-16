@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ncurses.h>
 
 #include "boardUtil.h"
 #include "playerUtil.h"
@@ -17,7 +18,7 @@ int main()
     initscr();          /* Init ncurses */
     noecho();           /* No terminal LOG */
     cbreak();           /* Disable line buffering */
-//  curs_set(0);        /* Set cursor invisible */
+    curs_set(0);        /* Set cursor invisible */
    
     WINDOW *board_win, *boardGameInfo_win, *boardTitle_win;
     board_win = boardWin();
@@ -32,6 +33,7 @@ int main()
     initBoard(board_win);
     updateBoard(board_win);
     updateBoardInfo(boardGameInfo_win);
+    initSelect();
 
     running = true;
     while(running)
@@ -42,6 +44,9 @@ int main()
         moveSelection(board_win, running);
         wrefresh(board_win);
         updateBoard(board_win);
+        updateBoardInfo(boardGameInfo_win);
+
+        drawSelection(board_win);
 
         refresh();
     }

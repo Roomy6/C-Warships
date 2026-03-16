@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include "shipUtil.h"
+#include "board.h"
+#include "playerUtil.h"
 
 /* TODO
  * Board X/Y selection
@@ -10,35 +12,6 @@
  * X/Y char placement
  * Title
  */
-
-enum icon
-{
-    EMPTY = ' ',
-    WATER = '~',
-    MISS = '.',
-    HIT = '&',
-
-    SHIP = '#'
-};
-
-/* This define code is all over the place
- * and would be nice to redefine all of them
- * but its still Alpha so :shrug:
- */
-
-/* Window padding */
-#define WIN_PADDING 1
-
-/* Board size */
-#define BOARD_SIZE 10
-
-/* The board X/Y size */
-#define BOARD_X 23
-#define BOARD_Y 13
-
-/* Game info board dimentions */
-#define INFO_X 15
-#define INFO_Y 11
 
 enum icon boardP[BOARD_X][BOARD_Y];
 enum icon boardE[BOARD_X][BOARD_Y];
@@ -128,6 +101,14 @@ void updateBoard(WINDOW *board_win)
 void updateBoardInfo(WINDOW *boardGameInfo_win)
 {
     mvwprintw(boardGameInfo_win, 0, 1, "Board Info");
+    mvwprintw(boardGameInfo_win, 1, 1, "Size: %d", BOARD_SIZE);
+    mvwprintw(boardGameInfo_win, 2, 1, "Selec: X:%d, Y:%d", selec.x, selec.y);
+
+    for(int i = 1; i < INFO_X - 1; i++)
+        mvwprintw(boardGameInfo_win, 3, i, "-");
+
+    mvwprintw(boardGameInfo_win, 4, 1, "Ships: %d", BOARD_SIZE);
+    mvwprintw(boardGameInfo_win, 5, 1, "Hits: %d", BOARD_SIZE);
     wrefresh(boardGameInfo_win);
 }
 
