@@ -7,24 +7,28 @@
 typedef struct Select {
     int y, x;
     int maxY, maxX;
+    int offsetY, offsetX;
 } Select;
 
 Select selec;
 
 void initSelect()
 {
-    selec.maxY = BOARD_Y - 2;
-    selec.maxX = BOARD_X - 2;
+    selec.maxY = BOARD_Y - 2 + selec.offsetY;
+    selec.maxX = BOARD_X - 2 + selec.offsetX;
 
-    selec.y = 2;
-    selec.x = 3;
+    selec.offsetY = 2;
+    selec.offsetX = 3;
+
+    selec.y = selec.offsetY;
+    selec.x = selec.offsetX;
 }
 
-int isGameOver(bool running)
+int isGameOver(bool *running)
 {
 }
 
-int moveSelection(WINDOW *board_win, bool running)
+int moveSelection(WINDOW *board_win, bool *running)
 {
     int ch = wgetch(board_win);
 
@@ -35,7 +39,7 @@ int moveSelection(WINDOW *board_win, bool running)
     /* Switch case for movement */
     switch (ch) {
         case KEY_UP:
-            if(selec.y > 2)
+            if(selec.y > selec.offsetY)
                 selec.y--;
             mvprintw(1, 0, "Up");
             clrtoeol();
@@ -47,7 +51,7 @@ int moveSelection(WINDOW *board_win, bool running)
             clrtoeol();
             break;
         case KEY_LEFT:
-            if(selec.x > 2)
+            if(selec.x > selec.offsetX)
                 selec.x -= 2;
             mvprintw(1, 0, "Left");
             clrtoeol();
@@ -60,15 +64,25 @@ int moveSelection(WINDOW *board_win, bool running)
             break;
         case 'Q':
         case 'q':
-            running = false;
+            *running = false;
             break;
     }
 
     return 1;
 }
 
+int prevY = -1;
+int prevX = -1;
+
 void drawSelection(WINDOW *board_win)
 {
+    /* Restore previous position */
+    if(prevY != -1 && prevX != -1)
+    {
+        chtype old = mvwinch(board_win, prevY, prevX);
+        mvwaddch(board_win, prevY, prevX, old & A_CHARTEXT);
+    }
+
     /* Read the character under the cursor */
     chtype ch = mvwinch(board_win, selec.y, selec.x);
 
@@ -82,7 +96,9 @@ void drawSelection(WINDOW *board_win)
     /* Turn highlighting off */
     wattroff(board_win, A_REVERSE);
 
-    wrefresh(board_win);
+    /* Save position */
+    prevY = selec.y;
+    prevX = selec.x;
 }
 
 #endif

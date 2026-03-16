@@ -41,14 +41,19 @@ int main()
         /* REMINDER
          * input -> update -> draw
          */
-        moveSelection(board_win, running);
-        wrefresh(board_win);
+        
+        /* Input */
+        moveSelection(board_win, &running);
+
+        /* Update */
         updateBoard(board_win);
         updateBoardInfo(boardGameInfo_win);
 
+        /* Draw */
         drawSelection(board_win);
 
-        refresh();
+        wrefresh(board_win);
+        wrefresh(boardGameInfo_win);
     }
 
     delwin(board_win);

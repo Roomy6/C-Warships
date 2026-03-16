@@ -35,7 +35,6 @@ WINDOW *boardWin()
     WINDOW *board_win = newwin(BOARD_Y, BOARD_X,
             boardWinY, boardWinX);
 
-    wrefresh(board_win);
     box(board_win, 0, 0);
     return board_win;
 }
@@ -58,7 +57,6 @@ WINDOW *boardGameInfo(WINDOW *board_win)
     
     mvprintw(0, 0, "X:%d Y:%d", boardWinX, boardWinY);
 
-    wrefresh(boardGameInfo_win);
     box(boardGameInfo_win, 0, 0);
     return boardGameInfo_win;
 }
@@ -87,28 +85,30 @@ void initBoard(WINDOW *board_win)
         {
             mvwaddch(board_win, y, x, WATER);
         }
-    }
+    } 
 
-    wrefresh(board_win);
 }
 
 void updateBoard(WINDOW *board_win)
-{    
+{ 
     mvwprintw(board_win, 0, 1, "Board Game");
-    wrefresh(board_win);
 }
 
 void updateBoardInfo(WINDOW *boardGameInfo_win)
 {
     mvwprintw(boardGameInfo_win, 0, 1, "Board Info");
-    mvwprintw(boardGameInfo_win, 1, 1, "Size: %d", BOARD_SIZE);
-    mvwprintw(boardGameInfo_win, 2, 1, "Selec: X:%d, Y:%d", selec.x, selec.y);
+    mvwprintw(boardGameInfo_win, 1, 1, "Size: %3d", BOARD_SIZE);
+
+    int boardY = selec.y - selec.offsetY;
+    int boardX = (selec.x - selec.offsetX) / 2;
+    mvwprintw(boardGameInfo_win, 2, 1, "Selec: X:%-2d Y:%-2d", boardX, boardY);
 
     for(int i = 1; i < INFO_X - 1; i++)
         mvwprintw(boardGameInfo_win, 3, i, "-");
 
-    mvwprintw(boardGameInfo_win, 4, 1, "Ships: %d", BOARD_SIZE);
-    mvwprintw(boardGameInfo_win, 5, 1, "Hits: %d", BOARD_SIZE);
+    mvwprintw(boardGameInfo_win, 4, 1, "Ships: %3d", BOARD_SIZE);
+    mvwprintw(boardGameInfo_win, 5, 1, "Hits: %3d", BOARD_SIZE);
+
     wrefresh(boardGameInfo_win);
 }
 
