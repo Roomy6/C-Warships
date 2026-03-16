@@ -19,15 +19,20 @@ int main()
     cbreak();           /* Disable line buffering */
 //  curs_set(0);        /* Set cursor invisible */
    
-    WINDOW *board_win;
+    WINDOW *board_win, *boardGameInfo_win, *boardTitle_win;
     board_win = boardWin();
+    boardGameInfo_win = boardGameInfo(board_win);
+    boardTitle_win = boardTitle(board_win);
 
     keypad(board_win, TRUE);
 
     refresh();
 
+    /* Init and update before loop */
     initBoard(board_win);
-   
+    updateBoard(board_win);
+    updateBoardInfo(boardGameInfo_win);
+
     running = true;
     while(running)
     {
