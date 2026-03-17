@@ -1,4 +1,10 @@
 # Project based
+CMakeFiles
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+warships
 
 # Prerequisites
 *.d
